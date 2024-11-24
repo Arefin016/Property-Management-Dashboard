@@ -1,14 +1,47 @@
+import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { FaUtensils } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
+import Swal from "sweetalert2"
 
 const AddNewProperty = () => {
+  const navigate = useNavigate()
+
+  const [items, setItems] = useState([])
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm()
   const onSubmit = (data) => {
-    console.log(data)
+    const value = localStorage.getItem("properties")
+    let propertiesArray = value ? JSON.parse(value) : []
+
+    const newProperty = {
+      propertyLink: data.propertyLink,
+      propertyName: data.propertyName,
+      propertyType: data.propertyType,
+      rentalDate: data.rentalDate,
+      rentalDesc: data.rentalDesc,
+      rentalPrice: data.rentalPrice,
+      rentalStatus: data.rentalStatus,
+    }
+
+    propertiesArray.push(newProperty)
+
+    localStorage.setItem("properties", JSON.stringify(propertiesArray))
+
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Your Rental has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+    })
+    reset()
+    navigate("/dashboard/viewProperty")
   }
 
   return (
@@ -45,8 +78,24 @@ const AddNewProperty = () => {
               </span>
             )}
           </div>
-
-          {/* Property Name Field End*/}
+          <div className="form-control w-full">
+            <div className="label">
+              <span className="label-text">Property Image Link*</span>
+            </div>
+            <input
+              {...register("propertyLink", {
+                required: "Property Name is required",
+              })}
+              type="text"
+              placeholder="Property Image Link"
+              className="input input-bordered w-full"
+            />
+            {errors.propertyName && (
+              <span className="text-red-500 text-sm">
+                {errors.propertyName.message}{" "}
+              </span>
+            )}
+          </div>
 
           {/* Property Type and Rental Price */}
           <div className="flex md:flex-row flex-col gap-6">
@@ -157,10 +206,17 @@ const AddNewProperty = () => {
               <span className="label-text">Rental Details</span>
             </div>
             <textarea
-              {...register("rentalDesc")}
+              {...register("rentalDesc", {
+                required: "Rental Details is required",
+              })}
               className="textarea textarea-bordered h-24"
               placeholder="Rental Details"
             ></textarea>
+            {errors.rentalDesc && (
+              <span className="text-red-500 text-sm">
+                {errors.rentalDate.message}
+              </span>
+            )}
           </div>
 
           <button className="btn mt-2">
