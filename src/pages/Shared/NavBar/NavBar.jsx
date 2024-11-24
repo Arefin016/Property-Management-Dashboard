@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { Link, NavLink } from "react-router-dom"
 import realState from "../../../assets/realState.png"
+import { Link } from "react-router-dom"
 
 const NavBar = () => {
   // Dark and light Mode active
@@ -23,13 +23,15 @@ const NavBar = () => {
   const navLinks = (
     <>
       <li data-aos="fade-down" data-aos-duration="2000">
-        <NavLink to="/">Dashboard</NavLink>
+        <Link className="text-black" to="/dashboard/viewProperty">
+          Dashboard
+        </Link>
       </li>
     </>
   )
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar bg-opacity-30 bg-black text-white">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
