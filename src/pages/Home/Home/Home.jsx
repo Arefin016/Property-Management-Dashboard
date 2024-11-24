@@ -9,7 +9,7 @@ const Home = () => {
       <h2
         data-aos="flip-left"
         data-aos-duration="1500"
-        className="md:text-6xl text-xl font-semibold md:my-16 text-center text-blue-600 uppercase"
+        className="md:text-6xl text-xl font-semibold my-16 text-center text-blue-600 uppercase"
       >
         Welcome to <br /> Property Management Dashboard
       </h2>
